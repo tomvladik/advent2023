@@ -99,7 +99,11 @@ Game 98: 1 blue; 2 green, 1 red; 5 red, 2 green; 4 red, 1 green; 2 red, 2 green,
 Game 99: 6 blue, 5 red, 2 green; 9 red, 1 blue; 2 green, 2 red, 5 blue; 10 blue, 2 green; 11 blue, 1 green, 4 red
 Game 100: 1 blue, 13 green, 14 red; 11 green, 11 blue, 7 red; 2 red, 1 blue, 2 green; 10 blue, 15 red
 '''
+
 debug = False #change to get debug outputs
+def dbgPrint(message):
+    if debug:
+        print(message)
 
 theSum = 0
 lines = inputString.splitlines()
@@ -139,15 +143,13 @@ def checkGame(line):
 # Iterate over the lines
 for line in lines:
     name, game = parseUntilDelimiter(line, ':')
-    print(name) if debug else None
-    print(game) if debug else None
+    dbgPrint(name)
+    dbgPrint(game)
+    thePower = 1
+    for _, count in checkGame(game).items():
+       dbgPrint(f'. {_: <5} : {count}')
+       thePower *= count
+    dbgPrint(f'.. powered : {thePower}')
+    theSum += thePower
 
-    checkGame(game)
-       _, gameId = name.split()
-       print(f'>>OK: {gameId}') if debug else None
-       theSum += int(gameId)
-    else:   
-       print(f'FAIL: {name}') if debug else None
-
-
-print(f'**** sum of all of the game IDs: {theSum} ****')
+print(f'**** sum of powers: {theSum} ****')
